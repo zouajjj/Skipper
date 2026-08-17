@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="skipper-docs">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/skipper-docs.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
