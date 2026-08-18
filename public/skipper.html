@@ -121,6 +121,11 @@
   .filter.mcd{border-color:rgba(218,41,28,.4);}
   .filter.mcd.active{background:#DA291C; border-color:#DA291C; color:#FFC72C;}
 
+  .test-pois{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:12px; padding-bottom:12px; border-bottom:1px dashed var(--border);}
+  .test-pois-label{font-size:.72rem; margin-right:2px;}
+  .filter.test-poi{border-style:dashed; border-color:var(--border-hi);}
+  .filter.test-poi:hover{border-color:var(--accent); color:var(--text);}
+
   /* Eatery grid */
   .eatery-list{display:flex; flex-direction:column; gap:8px; max-height:420px; overflow-y:auto; padding-right:2px;}
   .eatery-list::-webkit-scrollbar{width:6px;}
@@ -244,20 +249,28 @@
 
       <div class="card">
         <div class="card-hd">
-          <h2>Nearby eateries</h2>
+          <h2>Nearby places</h2>
           <span class="muted" id="eateryCount"></span>
         </div>
         <div class="card-bd">
+          <div class="test-pois">
+            <span class="muted test-pois-label">Test destinations (routing check):</span>
+            <button class="filter test-poi" data-test="decatur">🔵 Decatur Station Food Mart</button>
+            <button class="filter test-poi" data-test="buckhead">🔴 Publix · Buckhead</button>
+            <button class="filter test-poi" data-test="lenox">🟡 Publix · Lenox</button>
+          </div>
           <div class="filters">
             <button class="filter active" data-f="all">All</button>
             <button class="filter" data-f="restaurant">Restaurant</button>
             <button class="filter" data-f="cafe">Cafe</button>
             <button class="filter" data-f="bar">Bar</button>
             <button class="filter" data-f="fast_food">Quick bite</button>
+            <button class="filter" data-f="grocery">🛒 Grocery</button>
+            <button class="filter" data-f="pharmacy">💊 Pharmacy</button>
             <button class="filter mcd" data-f="mcd">🍟 McDonald's</button>
           </div>
           <div class="eatery-list" id="eateryList">
-            <div class="empty-state">Share your location to find eateries near you.</div>
+            <div class="empty-state">Share your location to find food, grocery, and pharmacy stops near you.</div>
           </div>
         </div>
       </div>
@@ -345,7 +358,25 @@
     RED: ["NORTH_SPRINGS","SANDY_SPRINGS","DUNWOODY","MEDICAL_CENTER","BUCKHEAD","LINDBERGH","ARTS_CENTER","MIDTOWN","NORTH_AVE","CIVIC_CENTER","PEACHTREE_CENTER","FIVE_PTS","GARNETT","WEST_END","OAKLAND_CITY","LAKEWOOD","EAST_POINT","COLLEGE_PARK","AIRPORT"],
   };
 
-  const EATERY_AMENITIES = "restaurant|cafe|fast_food|bar|pub|food_court|ice_cream|bakery|deli";
+  const EATERY_AMENITIES = "restaurant|cafe|fast_food|bar|pub|food_court|ice_cream|bakery|deli|pharmacy";
+  const GROCERY_SHOPS = "supermarket|grocery|convenience";
+
+  // Real POIs pulled from Overpass near three real stations (one per line), for exercising
+  // the routing engine without needing to physically be near a station. Not fabricated —
+  // fetched live the same way fetchEateries() does, just recorded here as fixed test targets.
+  const TEST_POIS = [
+    { key: 'decatur', id: 'test-decatur-food-mart', name: 'Decatur Station Food Mart', amenity: 'convenience', cuisine: null, lat: 33.7749422, lon: -84.2950302 },
+    { key: 'buckhead', id: 'test-buckhead-publix', name: 'Publix (near Buckhead)', amenity: 'supermarket', cuisine: null, lat: 33.8455819, lon: -84.3743372 },
+    { key: 'lenox', id: 'test-lenox-publix', name: 'Publix (near Lenox)', amenity: 'supermarket', cuisine: null, lat: 33.8511259, lon: -84.3594776 },
+  ];
+
+  // Coarser grouping used for filter chips — several raw OSM tags collapse into one category
+  // (e.g. shop=supermarket/grocery/convenience all become "grocery").
+  function categorize(tags) {
+    if (tags.amenity === 'pharmacy') return 'pharmacy';
+    if (tags.shop && new RegExp(`^(${GROCERY_SHOPS})$`).test(tags.shop)) return 'grocery';
+    return tags.amenity || 'other';
+  }
 
   // ---------- State ----------
   let userLoc = null;          // {lat, lon}
@@ -631,8 +662,8 @@
   const eateryCount = document.getElementById('eateryCount');
 
   async function fetchEateries(lat, lon) {
-    eateryList.innerHTML = `<div class="empty-state"><div class="spin"></div>Finding eateries nearby…</div>`;
-    const query = `[out:json][timeout:28];(node["amenity"~"^(${EATERY_AMENITIES})$"](around:1400,${lat},${lon});way["amenity"~"^(${EATERY_AMENITIES})$"](around:1400,${lat},${lon}););out center 80;`;
+    eateryList.innerHTML = `<div class="empty-state"><div class="spin"></div>Finding places nearby…</div>`;
+    const query = `[out:json][timeout:28];(node["amenity"~"^(${EATERY_AMENITIES})$"](around:1400,${lat},${lon});way["amenity"~"^(${EATERY_AMENITIES})$"](around:1400,${lat},${lon});node["shop"~"^(${GROCERY_SHOPS})$"](around:1400,${lat},${lon});way["shop"~"^(${GROCERY_SHOPS})$"](around:1400,${lat},${lon}););out center 80;`;
 
     try {
       const res = await fetch('https://overpass-api.de/api/interpreter', {
@@ -647,15 +678,17 @@
           const tags = el.tags || {};
           if (!tags.name || p.lat == null || p.lon == null) return null;
           return {
-            id: el.id, name: tags.name, amenity: tags.amenity || 'restaurant',
-            cuisine: tags.cuisine || null, lat: p.lat, lon: p.lon,
+            id: el.id, name: tags.name, amenity: tags.amenity || tags.shop || 'other',
+            category: categorize(tags),
+            cuisine: tags.cuisine || tags.shop || null,
+            lat: p.lat, lon: p.lon,
             dist: hav(lat, lon, p.lat, p.lon),
             isMcd: /mcdonald/i.test(tags.name),
           };
         })
         .filter(Boolean)
         .sort((a,b) => a.dist - b.dist)
-        .slice(0, 30);
+        .slice(0, 40);
 
       renderEateries();
     } catch (e) {
@@ -667,7 +700,7 @@
   function renderEateries() {
     let filtered = eateries;
     if (activeFilter === 'mcd') filtered = eateries.filter(e => e.isMcd);
-    else if (activeFilter !== 'all') filtered = eateries.filter(e => e.amenity === activeFilter);
+    else if (activeFilter !== 'all') filtered = eateries.filter(e => e.category === activeFilter);
 
     eateryCount.textContent = filtered.length ? `${filtered.length} found` : '';
 
@@ -698,12 +731,21 @@
     return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   }
 
-  document.querySelectorAll('.filter').forEach(btn => {
+  document.querySelectorAll('.filter[data-f]').forEach(btn => {
     btn.addEventListener('click', () => {
-      document.querySelectorAll('.filter').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.filter[data-f]').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       activeFilter = btn.dataset.f;
       renderEateries();
+    });
+  });
+
+  document.querySelectorAll('.test-poi').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const poi = TEST_POIS.find(p => p.key === btn.dataset.test);
+      if (!userLoc) { showLocError('Set your location first, then pick a test destination.'); return; }
+      if (!poi) return;
+      selectPOI(poi);
     });
   });
 
