@@ -43,22 +43,39 @@ enriches but never gates the route plan.
         │
 3. User selects POI (eatery or McDonald's)
         │
-4. POST /api/route-plan { user_location, poi_id }
+4. POST /api/route-plan { user_location, poi }
         │
-5. Backend queries PostGIS:
-   · Nearest stop to user     → ST_MakePoint(lon,lat) <-> GIST
-   · Nearest stop to POI      → same KNN query
-   · Shared route feasibility → stop_times JOIN
+5. Backend builds/reuses an in-memory transit graph (src/routing/graph.ts):
+   · Nodes = marta_stops rows
+   · Rail edges  → consecutive stops within each marta_lines.stop_ids sequence
+   · Bus edges   → consecutive stops within each route_stops (route_id, direction_id)
+                   sequence — directed, since GTFS directions aren't symmetric
+   · Walk edges  → ST_DWithin short hops between nearby stops of a different stop_type
+                   (e.g. a bus bay outside a rail station)
         │
-6. Legs assembled: [ walk → board → transit → alight → walk ]
+6. Top-K nearest stops to the user and top-K nearest to the POI (KNN, not just 1 each) become
+   candidate boarding/alighting points. Dijkstra runs once from a virtual source (wired to
+   each candidate with its walk time) to a virtual sink (same, for the POI side), over graph
+   state (stopId, currentLine/Route) so line/route changes cost a small transfer penalty.
         │
-7. Arrival enrichment (optional):
+7. The winning path's hops are collapsed into legs: consecutive same-line/route hops become
+   one `ride` leg (board station → alight station), consecutive walk hops become one `walk`
+   leg. If no path connects any candidate pair, the response says so explicitly instead of
+   fabricating a ride (`estimated: true` straight-line fallback).
+        │
+8. Arrival enrichment (optional, unrelated to the graph above):
    · provider.ping() → alive?
      · YES → provider.getArrivals(stop_id) → StopArrival[]
      · NO  → SELECT from stop_times → StopArrival[] (source:'cached')
         │
-8. Response: { route_id, legs[], arrivals[], source, disclaimer }
+9. Response: { route_id, legs[], total_minutes, disclaimer }
 ```
+
+`public/skipper.html` mirrors a rail-only version of the same graph/Dijkstra approach
+client-side (over the `RAIL`/`LINE_PATHS` constants it already embeds for the canvas map), and
+prefers calling `/api/route-plan` first for full rail+bus routing — falling back to the local
+rail-only search only when the backend isn't reachable. This is the same graceful-degradation
+pattern already used for arrival enrichment (live API → cached schedule), applied to routing.
 
 ---
 
@@ -122,6 +139,25 @@ Adding a new city should require writing one adapter file and one line in `Provi
 Without the interface, adding Chicago CTA would require touching the route plan, the arrivals
 endpoint, the frontend, and the tests. The interface enforces the contract that routing logic
 and transit APIs are decoupled.
+
+### Why a weighted graph + Dijkstra instead of nearest-stop + straight-line?
+The original route planner found the single nearest stop to the user and to the POI and drew
+one straight-line "transit" leg between them, labeled with whichever line happened to serve
+the nearest stop — without checking that the two stops were actually on a shared line, on
+connected lines, or reachable at all. That can't represent a trip that must stay on one line
+to a specific station, or one that requires a transfer, and it had literally no concept of bus
+routes (bus stops never had a `lines` value populated). The fix models the actual network —
+rail line adjacency (`marta_lines.stop_ids`), bus route adjacency (`route_stops`), and short
+walking transfers between modes — as a graph, and searches it with Dijkstra from several
+candidate boarding/alighting stops rather than assuming the nearest one is always right.
+
+### Why a canonical-trip shape instead of the full GTFS `stop_times` schedule for bus routes?
+MARTA's full `stop_times.txt` is on the order of millions of rows (see the seeding numbers
+above) — importing all of it just to learn "which stops does route 7 serve, in what order"
+is disproportionate. `seed_bus.py` picks the longest trip per `(route_id, direction_id)` as a
+representative shape and stores only that ordered sequence in `route_stops`. This is enough
+for graph routing (topology) but is not a live schedule — arrival times still come from the
+`TransitProvider` adapter or the `stop_times` cache fallback, not from `route_stops`.
 
 ### Why `ON CONFLICT DO UPDATE` on every seed INSERT?
 Seeds run on deploy, on GTFS release, and on cron. Making them idempotent means a failed seed

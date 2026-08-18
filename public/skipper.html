@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <meta name="theme-color" content="#0d0f14" />
 <title>Skipper — Atlanta Transit + Eats</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%230d0f14'/%3E%3Cpath d='M25 65 L45 35 L55 50 L75 30' stroke='%2363b3ff' stroke-width='8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='75' cy='30' r='7' fill='%23f5a623'/%3E%3C/svg%3E" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -373,6 +373,109 @@
     return { ...best, dist: bestD };
   }
 
+  // ---------- Client-side rail routing (fallback when /api/route-plan is unreachable) ----------
+  // Same weighted-graph approach as src/routing/graph.ts, over the RAIL/LINE_PATHS data this
+  // page already embeds. Rail-only (no bus route data lives in the standalone page — that
+  // needs the backend's GTFS-seeded route_stops table), but it's a real shortest-path search
+  // that finds transfers, not a straight line between the two nearest stations.
+  const RAIL_GRAPH = (() => {
+    const adjacency = {};
+    const addBidi = (a, b, line, min) => {
+      (adjacency[a] = adjacency[a] || []).push({ to: b, line, min });
+      (adjacency[b] = adjacency[b] || []).push({ to: a, line, min });
+    };
+    Object.entries(LINE_PATHS).forEach(([line, ids]) => {
+      for (let i = 0; i < ids.length - 1; i++) {
+        const a = stationById[ids[i]], b = stationById[ids[i + 1]];
+        addBidi(ids[i], ids[i + 1], line, Math.max(2, hav(a.lat, a.lon, b.lat, b.lon) * 3.8));
+      }
+    });
+    return adjacency;
+  })();
+
+  function dijkstraRail(originId, destId) {
+    const TRANSFER_PENALTY_MIN = 4;
+    const dist = new Map(), prev = new Map(), visited = new Set();
+    const startKey = originId + '|START';
+    dist.set(startKey, 0);
+    prev.set(startKey, null);
+    const pq = [{ key: startKey, id: originId, line: 'START', d: 0 }];
+
+    while (pq.length) {
+      pq.sort((a, b) => a.d - b.d);
+      const cur = pq.shift();
+      if (visited.has(cur.key)) continue;
+      visited.add(cur.key);
+      if (cur.id === destId) {
+        const hops = [];
+        let k = cur.key;
+        while (k) {
+          const p = prev.get(k);
+          if (!p) break;
+          hops.unshift(p.hop);
+          k = p.stateKey;
+        }
+        return hops;
+      }
+      for (const e of RAIL_GRAPH[cur.id] || []) {
+        const transfer = cur.line !== 'START' && cur.line !== e.line ? TRANSFER_PENALTY_MIN : 0;
+        const nd = cur.d + e.min + transfer;
+        const nKey = e.to + '|' + e.line;
+        if (!dist.has(nKey) || nd < dist.get(nKey)) {
+          dist.set(nKey, nd);
+          prev.set(nKey, { stateKey: cur.key, hop: { from: cur.id, to: e.to, line: e.line, min: e.min } });
+          pq.push({ key: nKey, id: e.to, line: e.line, d: nd });
+        }
+      }
+    }
+    return null; // no connected path — honest, not a fabricated straight line
+  }
+
+  function collapseRailHops(hops) {
+    const legs = [];
+    let i = 0;
+    while (i < hops.length) {
+      const head = hops[i];
+      let j = i;
+      while (j + 1 < hops.length && hops[j + 1].line === head.line) j++;
+      const fromS = stationById[head.from], toS = stationById[hops[j].to];
+      const min = hops.slice(i, j + 1).reduce((s, h) => s + h.min, 0);
+      legs.push({ type: 'ride', mode: 'rail', label: head.line, from: fromS.name, to: toS.name, min: Math.round(min) });
+      i = j + 1;
+    }
+    return legs;
+  }
+
+  function buildLocalRailRoute(userLat, userLon, poi) {
+    const origin = nearestStop(userLat, userLon);
+    const dest = nearestStop(poi.lat, poi.lon);
+    const w1 = hav(userLat, userLon, origin.lat, origin.lon);
+    const w2 = hav(poi.lat, poi.lon, dest.lat, dest.lon);
+
+    let rideLegs, disclaimer;
+    if (origin.id === dest.id) {
+      rideLegs = [];
+      disclaimer = 'Nearest station is the same on both ends — showing walking legs only (offline mode).';
+    } else {
+      const hops = dijkstraRail(origin.id, dest.id);
+      if (hops) {
+        rideLegs = collapseRailHops(hops);
+        disclaimer = 'Times estimated along the rail network from Haversine distance (offline mode) — verify at itsmarta.com';
+      } else {
+        const td = hav(origin.lat, origin.lon, dest.lat, dest.lon);
+        rideLegs = [{ type: 'walk', from: origin.name, to: dest.name, min: Math.round(td * 20), dist_mi: td, estimated: true }];
+        disclaimer = 'No connected rail route found between these stations (offline mode) — this is a straight-line estimate, not a real ride.';
+      }
+    }
+
+    const legs = [
+      { type: 'walk', from: 'Your location', to: origin.name, min: Math.round(w1 * 20), dist_mi: w1 },
+      ...rideLegs,
+      { type: 'walk', from: dest.name, to: poi.name, min: Math.round(w2 * 20), dist_mi: w2 },
+    ];
+    return { legs, total: legs.reduce((s, l) => s + l.min, 0), disclaimer };
+  }
+
   // ---------- Canvas map ----------
   const canvas = document.getElementById('mapCanvas');
   const ctx = canvas.getContext('2d');
@@ -615,47 +718,69 @@
     buildRoute(userLoc.lat, userLoc.lon, poi);
   }
 
-  function buildRoute(userLat, userLon, poi) {
-    const origin = nearestStop(userLat, userLon);
-    const dest = nearestStop(poi.lat, poi.lon);
+  async function buildRoute(userLat, userLon, poi) {
+    routePanel.classList.add('show');
+    document.getElementById('routeTarget').textContent = poi.name;
+    document.getElementById('routeLegs').innerHTML =
+      '<div style="padding:16px 0;color:var(--text-dim)">Finding route…</div>';
 
-    const w1 = hav(userLat, userLon, origin.lat, origin.lon);
-    const w2 = hav(poi.lat, poi.lon, dest.lat, dest.lon);
-    const td = hav(origin.lat, origin.lon, dest.lat, dest.lon);
+    let result = null;
+    try {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 2500);
+      const res = await fetch('/api/route-plan', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user_location: { lat: userLat, lon: userLon },
+          poi: { lat: poi.lat, lon: poi.lon, name: poi.name },
+        }),
+        signal: controller.signal,
+      });
+      clearTimeout(timer);
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data.legs) && data.legs.length) {
+          result = { legs: data.legs, total: data.total_minutes, disclaimer: data.disclaimer };
+        }
+      }
+    } catch (err) {
+      // Backend unreachable — expected in standalone/no-server mode. Fall back below.
+    }
 
-    const m1 = Math.round(w1*20), mt = Math.max(2, Math.round(td*3.8)), m2 = Math.round(w2*20);
-
-    const legs = [
-      { type:'walk', icon:'walk', from:'Your location', to:origin.name, min:m1, sub:`${w1.toFixed(2)} mi walk` },
-      { type:'transit', icon:'transit', from:origin.name, to:dest.name, min:mt, lines:origin.lines, sub:`${td.toFixed(2)} mi transit` },
-      { type:'walk', icon:'walk', from:dest.name, to:poi.name, min:m2, sub:`${w2.toFixed(2)} mi walk` },
-    ];
-
-    renderRoute(legs, m1+mt+m2, poi, origin, dest);
+    if (!result) result = buildLocalRailRoute(userLat, userLon, poi);
+    renderRoute(result.legs, result.total, poi, result.disclaimer);
   }
 
-  function renderRoute(legs, total, poi, origin, dest) {
+  function renderRoute(legs, total, poi, disclaimer) {
     document.getElementById('routeTarget').textContent = poi.name;
     document.getElementById('routeTotal').textContent = total;
     document.getElementById('routeDisclaimer').textContent =
-      'Times estimated from cached schedule — verify at itsmarta.com';
+      disclaimer || 'Times estimated from cached schedule — verify at itsmarta.com';
 
-    document.getElementById('routeLegs').innerHTML = legs.map((leg, i) => `
-      <div class="leg ${leg.type}">
+    document.getElementById('routeLegs').innerHTML = legs.map((leg, i) => {
+      const isRide = leg.type === 'ride';
+      const typeLabel = isRide ? (leg.mode === 'bus' ? 'Bus' : 'Rail') : 'Walk';
+      const chipColor = leg.mode === 'bus' ? '#a78bfa' : (LINE_CLR[leg.label] || '#63b3ff');
+      const chip = isRide
+        ? `<span class="line-tag" style="background:${chipColor}">${escapeHtml(leg.mode === 'bus' ? 'Route ' + leg.label : leg.label)}</span>`
+        : '';
+      const sub = leg.sub || (leg.dist_mi != null ? `${leg.dist_mi.toFixed(2)} mi` : '');
+      const platform = leg.from_platform ? ` · Platform ${escapeHtml(leg.from_platform)}` : '';
+      return `
+      <div class="leg ${isRide ? 'transit' : 'walk'}">
         <div class="leg-rail">
           <div class="leg-dot"></div>
           ${i < legs.length-1 ? '<div class="leg-line"></div>' : ''}
         </div>
         <div class="leg-body">
-          <div class="leg-type">${leg.type === 'walk' ? 'Walk' : 'Transit'} · ${leg.min} min</div>
-          <div class="leg-route">${escapeHtml(leg.from)} → ${escapeHtml(leg.to)}</div>
-          <div class="leg-sub">
-            ${leg.lines ? leg.lines.map(l => `<span class="line-tag" style="background:${LINE_CLR[l]}">${l}</span>`).join('') : ''}
-            ${leg.sub}
-          </div>
+          <div class="leg-type">${typeLabel} · ${leg.min} min${leg.estimated ? ' (estimated)' : ''}</div>
+          <div class="leg-route">${escapeHtml(leg.from)} → ${escapeHtml(leg.to)}${platform}</div>
+          <div class="leg-sub">${chip}${sub}</div>
         </div>
       </div>
-    `).join('');
+    `;
+    }).join('');
 
     routePanel.classList.add('show');
     routePanel.scrollIntoView({ behavior:'smooth', block:'nearest' });

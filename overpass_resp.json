@@ -1,0 +1,1315 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-08-18T05:41:04Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 536669081,
+  "lat": 33.7479065,
+  "lon": -84.3679063,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Agave"
+  }
+},
+{
+  "type": "node",
+  "id": 536672999,
+  "lat": 33.7556376,
+  "lon": -84.3890408,
+  "tags": {
+    "addr:city": "Atlanta",
+    "addr:floor": "G;1",
+    "addr:housenumber": "70",
+    "addr:postcode": "30303",
+    "addr:state": "GA",
+    "addr:street": "Peachtree Street",
+    "amenity": "fast_food",
+    "branch": "Five Points",
+    "brand": "Moe's Southwest Grill",
+    "brand:wikidata": "Q6889938",
+    "check_date": "2026-01-19",
+    "cuisine": "mexican",
+    "level": "0;1",
+    "name": "Moe's Southwest Grill",
+    "opening_hours": "Mo-Th 10:00-20:00; Fr 10:00-19:00; Sa-Su 10:00-17:00",
+    "payment:cash": "yes",
+    "payment:credit_cards": "yes",
+    "payment:debit_cards": "yes",
+    "phone": "+1 404-688-4288",
+    "short_name": "Moe's",
+    "takeaway": "yes",
+    "website": "https://locations.moes.com/ga/atlanta/70-peachtree-st",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 536673613,
+  "lat": 33.7558066,
+  "lon": -84.3895176,
+  "tags": {
+    "amenity": "fast_food",
+    "name": "Rosa's Pizza"
+  }
+},
+{
+  "type": "node",
+  "id": 536673709,
+  "lat": 33.7557670,
+  "lon": -84.3895670,
+  "tags": {
+    "amenity": "fast_food",
+    "name": "Alibaba's Turkish Food"
+  }
+},
+{
+  "type": "node",
+  "id": 536676887,
+  "lat": 33.7543460,
+  "lon": -84.3882292,
+  "tags": {
+    "amenity": "fast_food",
+    "name": "Sensational Subs"
+  }
+},
+{
+  "type": "node",
+  "id": 1127168751,
+  "lat": 33.7556878,
+  "lon": -84.3817848,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "caribbean",
+    "name": "Mangos Caribbean",
+    "opening_hours": "Mo-We 11:00-22:00, Th-Su 11:00-04:00"
+  }
+},
+{
+  "type": "node",
+  "id": 1127168752,
+  "lat": 33.7556908,
+  "lon": -84.3813050,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Buns and Shakes"
+  }
+},
+{
+  "type": "node",
+  "id": 1127215868,
+  "lat": 33.7556370,
+  "lon": -84.3795095,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Wok and Roll"
+  }
+},
+{
+  "type": "node",
+  "id": 1139929635,
+  "lat": 33.7556459,
+  "lon": -84.3790761,
+  "tags": {
+    "amenity": "pub",
+    "name": "Tap Out Billiards"
+  }
+},
+{
+  "type": "node",
+  "id": 1139929666,
+  "lat": 33.7556803,
+  "lon": -84.3816274,
+  "tags": {
+    "amenity": "bar",
+    "name": "Royal Peacock Lounge",
+    "opening_hours": "Fr-Su 10:00-04:00; Mo-Th off"
+  }
+},
+{
+  "type": "node",
+  "id": 1141444131,
+  "lat": 33.7497186,
+  "lon": -84.3787121,
+  "tags": {
+    "addr:housenumber": "349",
+    "addr:street": "Decatur Street",
+    "amenity": "cafe",
+    "cuisine": "coffee_shop",
+    "name": "Marlee's Coffee and Tea"
+  }
+},
+{
+  "type": "node",
+  "id": 1179861864,
+  "lat": 33.7545522,
+  "lon": -84.3791899,
+  "tags": {
+    "amenity": "restaurant",
+    "bar": "yes",
+    "name": "Spanish Harlem"
+  }
+},
+{
+  "type": "node",
+  "id": 1179861875,
+  "lat": 33.7550964,
+  "lon": -84.3820706,
+  "tags": {
+    "amenity": "fast_food",
+    "brand": "Smoothie King",
+    "brand:wikidata": "Q5491421",
+    "cuisine": "juice",
+    "name": "Smoothie King",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 1179861879,
+  "lat": 33.7558549,
+  "lon": -84.3800972,
+  "tags": {
+    "amenity": "fast_food",
+    "name": "Cleveland Style Deli"
+  }
+},
+{
+  "type": "node",
+  "id": 1446314511,
+  "lat": 33.7566131,
+  "lon": -84.3890915,
+  "tags": {
+    "addr:city": "Atlanta",
+    "addr:country": "US",
+    "addr:floor": "G",
+    "addr:housenumber": "60",
+    "addr:postcode": "30303",
+    "addr:street": "Luckie Street Northwest",
+    "air_conditioning": "yes",
+    "amenity": "cafe",
+    "check_date": "2024-07-18",
+    "cuisine": "burger;american",
+    "drive_through": "no",
+    "level": "0",
+    "name": "Landmark Diner - Downtown",
+    "opening_hours": "24/7",
+    "outdoor_seating": "no",
+    "payment:cash": "yes",
+    "payment:credit_cards": "yes",
+    "payment:debit_cards": "yes",
+    "reservation": "no",
+    "smoking": "no",
+    "source": "survey;local knowledge",
+    "takeaway": "yes",
+    "website": "https://www.landmarkdiner.com",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 1748936394,
+  "lat": 33.7418767,
+  "lon": -84.3684433,
+  "tags": {
+    "amenity": "bar",
+    "name": "Cockpit"
+  }
+},
+{
+  "type": "node",
+  "id": 1973081734,
+  "lat": 33.7460780,
+  "lon": -84.3727959,
+  "tags": {
+    "addr:housenumber": "437",
+    "addr:postcode": "30312",
+    "addr:street": "Memorial Drive Southeast",
+    "air_conditioning": "yes",
+    "amenity": "cafe",
+    "bar": "yes",
+    "check_date": "2024-08-09",
+    "highchair": "yes",
+    "internet_access": "wlan",
+    "name": "The Little Tart Bakeshop",
+    "old_name": "Octane Coffee",
+    "opening_hours": "Mo-Fr 07:00-18:00; Sa,Su 17:00-21:00",
+    "outdoor_seating": "yes",
+    "payment:cash": "yes",
+    "payment:credit_cards": "yes",
+    "payment:debit_cards": "yes",
+    "website": "https://www.littletartatl.com/location/grant-park/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 2210733684,
+  "lat": 33.7562632,
+  "lon": -84.3645264,
+  "tags": {
+    "amenity": "bar",
+    "name": "Krog Bar",
+    "source": "local_knowledge"
+  }
+},
+{
+  "type": "node",
+  "id": 2268953667,
+  "lat": 33.7558251,
+  "lon": -84.3651117,
+  "tags": {
+    "amenity": "restaurant",
+    "check_date": "2024-12-18",
+    "name": "Bell Street Burritos",
+    "source": "survey"
+  }
+},
+{
+  "type": "node",
+  "id": 2288044083,
+  "lat": 33.7574066,
+  "lon": -84.3673660,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "american",
+    "name": "Serpas"
+  }
+},
+{
+  "type": "node",
+  "id": 2288048120,
+  "lat": 33.7504418,
+  "lon": -84.3643866,
+  "tags": {
+    "addr:city": "Atlanta",
+    "addr:housenumber": "692B",
+    "addr:postcode": "30316",
+    "addr:state": "GA",
+    "addr:street": "Kirkwood Avenue Southeast",
+    "addr:unit": "B1",
+    "amenity": "cafe",
+    "cuisine": "cupcake;sweets",
+    "internet_access": "wlan",
+    "name": "Sweet Cheats"
+  }
+},
+{
+  "type": "node",
+  "id": 2288049569,
+  "lat": 33.7489743,
+  "lon": -84.3679405,
+  "tags": {
+    "addr:city": "Atlanta",
+    "addr:housenumber": "208",
+    "addr:postcode": "30312",
+    "addr:state": "GA",
+    "addr:street": "Carroll Street Southeast",
+    "amenity": "restaurant",
+    "cuisine": "american",
+    "internet_access": "wlan",
+    "internet_access:fee": "no",
+    "name": "Carrol Street Cafe"
+  }
+},
+{
+  "type": "node",
+  "id": 2698565984,
+  "lat": 33.7551840,
+  "lon": -84.3892840,
+  "tags": {
+    "addr:city": "Atlanta",
+    "addr:housenumber": "52",
+    "addr:postcode": "30303",
+    "addr:street": "Peachtree Street",
+    "amenity": "restaurant",
+    "capacity": "75",
+    "cuisine": "mediterranean",
+    "level": "0",
+    "name": "Anatolia Mediterranean Cafe",
+    "opening_hours": "Mo-Fr 11:00-24:00, Sa 16:00-02:00",
+    "website": "http://theanatoliacafe.com/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 2698565985,
+  "lat": 33.7566615,
+  "lon": -84.3880778,
+  "tags": {
+    "addr:city": "Atlanta",
+    "addr:floor": "G;1",
+    "addr:housenumber": "113",
+    "addr:postcode": "30303",
+    "addr:street": "Peachtree Street",
+    "amenity": "restaurant",
+    "capacity": "30",
+    "check_date": "2026-01-19",
+    "cuisine": "sandwich",
+    "level": "0;1",
+    "name": "Rising Roll Gourmet Cafe",
+    "opening_hours": "Mo-Fr 08:00-15:00",
+    "payment:cash": "yes",
+    "payment:credit_cards": "yes",
+    "payment:debit_cards": "yes",
+    "phone": "+1-404-524-1711",
+    "website": "https://www.risingroll.com/menu-downtown-candler-building",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 2755107963,
+  "lat": 33.7484913,
+  "lon": -84.3918277,
+  "tags": {
+    "addr:city": "Atlanta",
+    "addr:housenumber": "221",
+    "addr:postcode": "30303",
+    "addr:state": "GA",
+    "addr:street": "Shirley Clarke Franklin Boulevard Southwest",
+    "addr:unit": "A-1",
+    "amenity": "fast_food",
+    "brand": "Blimpie",
+    "brand:wikidata": "Q4926479",
+    "cuisine": "sandwich",
+    "name": "Blimpie",
+    "phone": "+1 404-784-1574",
+    "takeaway": "yes",
+    "website": "https://restaurants.subway.com/united-states/ga/atlanta/221-central-ave"
+  }
+},
+{
+  "type": "node",
+  "id": 2773678759,
+  "lat": 33.7558496,
+  "lon": -84.3894590,
+  "tags": {
+    "amenity": "fast_food",
+    "cuisine": "indian",
+    "name": "Naan Stop"
+  }
+},
+{
+  "type": "node",
+  "id": 2945977352,
+  "lat": 33.7421564,
+  "lon": -84.3676503,
+  "tags": {
+    "addr:city": "Atlanta",
+    "addr:housenumber": "448",
+    "addr:postcode": "30312",
+    "addr:state": "GA",
+    "addr:street": "Boulevard Southeast",
+    "amenity": "fast_food",
+    "brand": "Subway",
+    "brand:wikidata": "Q244457",
+    "cuisine": "sandwich",
+    "drive_through": "no",
+    "fixme:atp": "no ATP match, check if still exists",
+    "name": "Subway",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 2969376076,
+  "lat": 33.7420813,
+  "lon": -84.3733069,
+  "tags": {
+    "addr:city": "Atlanta",
+    "addr:housenumber": "454",
+    "addr:postcode": "30312",
+    "addr:street": "Cherokee Avenue Southeast",
+    "amenity": "restaurant",
+    "description": "American fare, brunch served 10:30 - 3:00 Saturday and Sunday",
+    "name": "Dakota Blue",
+    "opening_hours": "Tu-Fr 11:30-22:00; Sa, Su 10:30-22:00",
+    "phone": "+1-404-589-8002",
+    "website": "https://www.dakotablueatlanta.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 3395223194,
+  "lat": 33.7511907,
+  "lon": -84.3854161,
+  "tags": {
+    "addr:city": "Atlanta",
+    "addr:housenumber": "100",
+    "addr:postcode": "30303",
+    "addr:state": "GA",
+    "addr:street": "Piedmont Avenue Southeast",
+    "amenity": "restaurant",
+    "cuisine": "mexican",
+    "name": "Willy's Mexicana Grill",
+    "wheelchair": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 4232293254,
+  "lat": 33.7543030,
+  "lon": -84.3816276,
+  "tags": {
+    "addr:city": "Atlanta",
+    "addr:housenumber": "183",
+    "addr:postcode": "30303",
+    "addr:state": "GA",
+    "addr:street": "Edgewood Avenue Northeast",
+    "amenity": "fast_food",
+    "brand": "Subway",
+    "brand:wikidata": "Q244457",
+    "cuisine": "sandwich",
+    "name": "Subway",
+    "opening_hours": "Mo-Fr 09:00-21:00; Sa 09:00-20:00; Su 09:00-19:00",
+    "phone": "+1 404-221-8820",
+    "takeaway": "yes",
+    "website": "https://restaurants.subway.com/united-states/ga/atlanta/183-edgewood-ave"
+  }
+},
+{
+  "type": "node",
+  "id": 4241446983,
+  "lat": 33.7599188,
+  "lon": -84.3862224,
+  "tags": {
+    "addr:city": "Atlanta",
+    "addr:housenumber": "231",
+    "addr:postcode": "30303",
+    "addr:state": "GA",
+    "addr:street": "Peachtree Center Avenue Northeast",
+    "amenity": "restaurant",
+    "check_date": "2024-07-08",
+    "cuisine": "chicken",
+    "name": "Gus's Fried Chicken",
+    "opening_hours": "Su-Th 11:00-21:00; Fr-Sa 11:00-23:00",
+    "payment:cash": "yes",
+    "payment:credit_cards": "yes",
+    "payment:debit_cards": "yes",
+    "phone": "+1 404-996-2837",
+    "website": "http://gusfriedchicken.com/atlanta-georgia-location/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4617462181,
+  "lat": 33.7549751,
+  "lon": -84.3821172,
+  "tags": {
+    "addr:city": "Atlanta",
+    "addr:housenumber": "171",
+    "addr:postcode": "30303",
+    "addr:state": "GA",
+    "addr:street": "Auburn Avenue",
+    "amenity": "fast_food",
+    "branch": "Atlanta, GSU",
+    "brand": "Moe's Southwest Grill",
+    "brand:wikidata": "Q6889938",
+    "cuisine": "mexican",
+    "name": "Moe's Southwest Grill",
+    "opening_hours": "10:00-21:00",
+    "phone": "+1 678-705-5930",
+    "short_name": "Moe's",
+    "takeaway": "yes",
+    "website": "https://locations.moes.com/ga/atlanta/171-auburn-ave"
+  }
+},
+{
+  "type": "node",
+  "id": 4879481770,
+  "lat": 33.7563673,
+  "lon": -84.3648066,
+  "tags": {
+    "addr:city": "Atlanta",
+    "addr:housenumber": "112",
+    "addr:postcode": "30307",
+    "addr:state": "GA",
+    "addr:street": "Krog Street Northeast",
+    "amenity": "ice_cream",
+    "name": "Jenny's"
+  }
+},
+{
+  "type": "node",
+  "id": 5236656422,
+  "lat": 33.7422197,
+  "lon": -84.3735188,
+  "tags": {
+    "addr:postcode": "30312-3250",
+    "amenity": "restaurant",
+    "cuisine": "pizza",
+    "name": "Grant Central Pizza",
+    "phone": "+1 404-523-8900"
+  }
+},
+{
+  "type": "node",
+  "id": 5260314989,
+  "lat": 33.7557155,
+  "lon": -84.3898802,
+  "tags": {
+    "addr:city": "Atlanta",
+    "addr:housenumber": "57",
+    "addr:postcode": "30303",
+    "addr:state": "GA",
+    "addr:street": "Forsyth Street Northwest",
+    "air_conditioning": "yes",
+    "amenity": "cafe",
+    "check_date": "2024-06-28",
+    "cuisine": "coffee_shop",
+    "indoor_seating": "yes",
+    "internet_access": "yes",
+    "internet_access:fee": "no",
+    "internet_access:ssid": "cafelucia-5",
+    "name": "Cafe Lucia",
+    "opening_hours": "Mo-Fr 07:00-18:00; Sa-Su 08:00-16:00",
+    "outdoor_seating": "no",
+    "payment:cash": "yes",
+    "payment:credit_cards": "yes",
+    "payment:debit_cards": "yes",
+    "smoking": "outside"
+  }
+},
+{
+  "type": "node",
+  "id": 5351941421,
+  "lat": 33.7597409,
+  "lon": -84.3718563,
+  "tags": {
+    "addr:floor": "G",
+    "addr:housenumber": "480",
+    "addr:postcode": "30312",
+    "addr:street": "John Wesley Dobbs Avenue Northeast",
+    "addr:unit": "100",
+    "amenity": "cafe",
+    "check_date": "2026-05-22",
+    "cuisine": "coffee_shop",
+    "internet_access": "wlan",
+    "level": "0",
+    "name": "Condesa Coffee",
+    "opening_hours": "Mo-Fr 07:00-16:00; Sa-Su 08:00-18:00",
+    "outdoor_seating": "no",
+    "payment:cash": "yes",
+    "payment:credit_cards": "yes",
+    "payment:debit_cards": "yes",
+    "phone": "+1-404-524-5054",
+    "website": "http://www.condesacoffee.com",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 5353831522,
+  "lat": 33.7559246,
+  "lon": -84.3680886,
+  "tags": {
+    "addr:postcode": "30312",
+    "amenity": "restaurant",
+    "cuisine": "sandwich",
+    "email": "getfresh@lottafrutta.com",
+    "name": "LottaFrutta",
+    "opening_hours": "Tu-Su 12:00-17:00",
+    "phone": "+1-404-588-0857",
+    "website": "https://www.lottafrutta.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 5413277909,
+  "lat": 33.7558247,
+  "lon": -84.3889991,
+  "tags": {
+    "amenity": "fast_food",
+    "cuisine": "italian",
+    "name": "Figo City Fast"
+  }
+},
+{
+  "type": "node",
+  "id": 5413277910,
+  "lat": 33.7557965,
+  "lon": -84.3889215,
+  "tags": {
+    "amenity": "cafe",
+    "cuisine": "coffee_shop",
+    "name": "Land of 1000 Hills"
+  }
+},
+{
+  "type": "node",
+  "id": 5413277911,
+  "lat": 33.7554902,
+  "lon": -84.3891099,
+  "tags": {
+    "amenity": "fast_food",
+    "cuisine": "korean",
+    "name": "Blossom Tree"
+  }
+},
+{
+  "type": "node",
+  "id": 5413277912,
+  "lat": 33.7553405,
+  "lon": -84.3891882,
+  "tags": {
+    "amenity": "fast_food",
+    "cuisine": "wings",
+    "name": "Cafe Hot Wing"
+  }
+},
+{
+  "type": "node",
+  "id": 5413277913,
+  "lat": 33.7552672,
+  "lon": -84.3892380,
+  "tags": {
+    "amenity": "cafe",
+    "name": "Boba Mocha"
+  }
+},
+{
+  "type": "node",
+  "id": 5413277914,
+  "lat": 33.7556505,
+  "lon": -84.3892673,
+  "tags": {
+    "amenity": "fast_food",
+    "name": "Cafe Delight"
+  }
+},
+{
+  "type": "node",
+  "id": 5413277915,
+  "lat": 33.7556067,
+  "lon": -84.3893412,
+  "tags": {
+    "amenity": "fast_food",
+    "name": "Fish Bowl Poké"
+  }
+},
+{
+  "type": "node",
+  "id": 5413277916,
+  "lat": 33.7555660,
+  "lon": -84.3894180,
+  "tags": {
+    "amenity": "fast_food",
+    "cuisine": "deli;sandwich",
+    "name": "Reuben's Deli"
+  }
+},
+{
+  "type": "node",
+  "id": 5413277917,
+  "lat": 33.7555184,
+  "lon": -84.3894858,
+  "tags": {
+    "amenity": "fast_food",
+    "cuisine": "vietnamese",
+    "name": "Dua"
+  }
+},
+{
+  "type": "node",
+  "id": 5413277918,
+  "lat": 33.7557082,
+  "lon": -84.3896538,
+  "tags": {
+    "amenity": "fast_food",
+    "cuisine": "tex-mex;mexican",
+    "name": "Taqueria on Broad"
+  }
+},
+{
+  "type": "node",
+  "id": 5413277919,
+  "lat": 33.7556668,
+  "lon": -84.3897246,
+  "tags": {
+    "amenity": "fast_food",
+    "cuisine": "chinese",
+    "name": "Ginseng Cafe"
+  }
+},
+{
+  "type": "node",
+  "id": 5413277920,
+  "lat": 33.7556224,
+  "lon": -84.3897811,
+  "tags": {
+    "amenity": "fast_food",
+    "cuisine": "chinese",
+    "name": "Best Cajun Asian"
+  }
+},
+{
+  "type": "node",
+  "id": 5413278621,
+  "lat": 33.7558992,
+  "lon": -84.3893849,
+  "tags": {
+    "amenity": "fast_food",
+    "cuisine": "italian",
+    "name": "BrickStone"
+  }
+},
+{
+  "type": "node",
+  "id": 5413278622,
+  "lat": 33.7559468,
+  "lon": -84.3893284,
+  "tags": {
+    "amenity": "fast_food",
+    "brand": "Subway",
+    "brand:wikidata": "Q244457",
+    "cuisine": "sandwich",
+    "fixme:atp": "no ATP match, check if still exists",
+    "name": "Subway",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 5413278623,
+  "lat": 33.7554211,
+  "lon": -84.3878114,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "bakery;sandwich",
+    "name": "Highland Bakery"
+  }
+},
+{
+  "type": "node",
+  "id": 6369218541,
+  "lat": 33.7517840,
+  "lon": -84.3913012,
+  "tags": {
+    "addr:city": "Atlanta",
+    "addr:housenumber": "111",
+    "addr:postcode": "30303",
+    "addr:state": "GA",
+    "addr:street": "Martin Luther King Jr Drive Southwest",
+    "amenity": "restaurant",
+    "name": "Jamrock",
+    "outdoor_seating": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 6375927985,
+  "lat": 33.7543918,
+  "lon": -84.3884522,
+  "tags": {
+    "amenity": "cafe",
+    "brand": "Kung Fu Tea",
+    "brand:wikidata": "Q66023886",
+    "cuisine": "bubble_tea",
+    "name": "Kung Fu Tea",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6952303685,
+  "lat": 33.7598453,
+  "lon": -84.3857682,
+  "tags": {
+    "addr:floor": "G;1",
+    "addr:housenumber": "60",
+    "addr:postcode": "30303",
+    "addr:state": "GA",
+    "addr:street": "Andrew Young International Boulevard Northeast",
+    "amenity": "restaurant",
+    "check_date": "2025-12-02",
+    "cuisine": "steak_house",
+    "level": "0;1",
+    "name": "Cuts Steakhouse",
+    "opening_hours": "Mo-Fr 11:00-22:00; Sa 12:00-22:00; Su off",
+    "payment:cash": "yes",
+    "payment:credit_cards": "yes",
+    "payment:debit_cards": "yes",
+    "phone": "+1-404-525-3399",
+    "website": "https://www.cutsatlanta.com/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7025144080,
+  "lat": 33.7543665,
+  "lon": -84.3867205,
+  "tags": {
+    "addr:city": "Atlanta",
+    "addr:housenumber": "50",
+    "addr:postcode": "30303",
+    "addr:state": "GA",
+    "addr:street": "Hurt Plaza Southeast",
+    "amenity": "cafe",
+    "brand": "Starbucks",
+    "brand:wikidata": "Q37158",
+    "contact:website": "https://www.starbucks.com/store-locator/store/1015944/the-hurt-building-50-hurt-plaza-atlanta-ga-30303-us",
+    "cuisine": "coffee_shop",
+    "internet_access": "yes",
+    "name": "Starbucks",
+    "official_name": "Starbucks Coffee",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7101656352,
+  "lat": 33.7465496,
+  "lon": -84.3736541,
+  "tags": {
+    "addr:city": "Atlanta",
+    "addr:housenumber": "421",
+    "addr:postcode": "30312",
+    "addr:state": "GA",
+    "addr:street": "Memorial Drive Southeast",
+    "amenity": "restaurant",
+    "check_date": "2023-09-24",
+    "email": "mailto:boss@riasbluebird.com",
+    "name": "Ria's Bluebird",
+    "opening_hours": "Mo,Th-Su 09:00-15:00; Tu-We off",
+    "payment:mastercard": "yes",
+    "payment:visa": "yes",
+    "phone": "+1-404-521-3737",
+    "website": "https://order.riasbluebird.com/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7101656353,
+  "lat": 33.7465696,
+  "lon": -84.3738821,
+  "tags": {
+    "addr:city": "Atlanta",
+    "addr:housenumber": "415",
+    "addr:postcode": "30312",
+    "addr:state": "GA",
+    "addr:street": "Memorial Drive Southeast",
+    "amenity": "restaurant",
+    "check_date": "2023-09-24",
+    "cuisine": "mexican",
+    "name": "Tin Lizzy's Cantina",
+    "opening_hours": "Mo-Th,Su 11:00-23:00; Fr-Sa 11:00-01:00",
+    "payment:mastercard": "yes",
+    "payment:visa": "yes",
+    "phone": "+1-404-554-8220",
+    "website": "https://tinlizzyscantina.com/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7101656354,
+  "lat": 33.7466321,
+  "lon": -84.3727743,
+  "tags": {
+    "addr:housenumber": "437",
+    "addr:postcode": "30312",
+    "addr:state": "GA",
+    "addr:street": "Memorial Drive Southeast",
+    "addr:unit": "1A",
+    "amenity": "restaurant",
+    "check_date": "2025-08-20",
+    "cuisine": "seafood",
+    "email": "437party@sixfeetunder.net",
+    "name": "Six Feet Under Pub & Fish House",
+    "opening_hours": "Mo-Th,Su 11:00-23:00; Fr-Sa 11:00-24:00",
+    "payment:cash": "no",
+    "payment:credit_cards": "yes",
+    "payment:debit_cards": "yes",
+    "payment:mastercard": "yes",
+    "payment:visa": "yes",
+    "phone": "+1 404-523-6664",
+    "website": "https://www.sixfeetunder.net/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7137981895,
+  "lat": 33.7555043,
+  "lon": -84.3655486,
+  "tags": {
+    "addr:city": "Atlanta",
+    "addr:housenumber": "661",
+    "addr:postcode": "30312",
+    "addr:state": "GA",
+    "addr:street": "Auburn Avenue Northeast",
+    "addr:unit": "130",
+    "amenity": "ice_cream",
+    "name": "Butter and Cream",
+    "opening_hours": "Mo-Fr 15:00-22:00; Sa-Su 12:00-23:00",
+    "outdoor_seating": "yes",
+    "payment:american_express": "yes",
+    "payment:cash": "no",
+    "payment:contactless": "yes",
+    "payment:credit_cards": "yes",
+    "payment:debit_cards": "yes",
+    "payment:discover_card": "yes",
+    "payment:mastercard": "yes",
+    "website": "https://butterandcream.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 7774632886,
+  "lat": 33.7541678,
+  "lon": -84.3669633,
+  "tags": {
+    "addr:housenumber": "619",
+    "addr:postcode": "30312",
+    "addr:street": "Edgewood Avenue Northeast",
+    "amenity": "restaurant",
+    "name": "planet Bombay"
+  }
+},
+{
+  "type": "node",
+  "id": 7792796285,
+  "lat": 33.7562599,
+  "lon": -84.3654440,
+  "tags": {
+    "addr:housenumber": "661",
+    "addr:street": "Auburn Avenue Northeast",
+    "amenity": "bar",
+    "name": "Pour Taproom"
+  }
+},
+{
+  "type": "node",
+  "id": 8103555714,
+  "lat": 33.7543613,
+  "lon": -84.3883153,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "asian",
+    "name": "Mr. Hibachi"
+  }
+},
+{
+  "type": "node",
+  "id": 8103555716,
+  "lat": 33.7538528,
+  "lon": -84.3886821,
+  "tags": {
+    "addr:city": "Atlanta",
+    "addr:housenumber": "30",
+    "addr:postcode": "30303",
+    "addr:street": "Decatur Street Southeast",
+    "amenity": "restaurant",
+    "cuisine": "mexican",
+    "name": "Buenas Dias Cafe",
+    "website": "https://www.atlantabuenosdiascafe.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 8103924817,
+  "lat": 33.7538147,
+  "lon": -84.3886114,
+  "tags": {
+    "addr:city": "Atlanta",
+    "addr:housenumber": "32",
+    "addr:postcode": "30303",
+    "addr:state": "GA",
+    "addr:street": "Decatur Street Southeast",
+    "amenity": "fast_food",
+    "brand": "Subway",
+    "brand:wikidata": "Q244457",
+    "cuisine": "sandwich",
+    "name": "Subway",
+    "opening_hours": "Mo-Th 07:00-20:00; Fr 07:00-18:00",
+    "phone": "+1 404-659-9232",
+    "takeaway": "yes",
+    "website": "https://restaurants.subway.com/united-states/ga/atlanta/32-decatur-street-se"
+  }
+},
+{
+  "type": "node",
+  "id": 8103924819,
+  "lat": 33.7549265,
+  "lon": -84.3894764,
+  "tags": {
+    "amenity": "fast_food",
+    "brand": "Arby's",
+    "brand:wikidata": "Q630866",
+    "cuisine": "sandwich",
+    "fixme:atp": "no ATP match, check if still exists",
+    "name": "Arby's",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 8116743032,
+  "lat": 33.7591852,
+  "lon": -84.3874023,
+  "tags": {
+    "addr:floor": "G;1",
+    "addr:housenumber": "191",
+    "addr:street": "Peachtree Street Northeast",
+    "amenity": "restaurant",
+    "check_date": "2025-10-31",
+    "cuisine": "mexican",
+    "diet:vegetarian": "yes",
+    "level": "0;1",
+    "name": "Alma Cocina",
+    "opening_hours": "Mo-Sa 11:30-22:00; Su 17:00-21:00",
+    "payment:cash": "yes",
+    "payment:credit_cards": "yes",
+    "payment:debit_cards": "yes",
+    "phone": "+1 404-968-9662",
+    "website": "https://www.alma-atlanta.com/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 8197438187,
+  "lat": 33.7540764,
+  "lon": -84.3716369,
+  "tags": {
+    "amenity": "bar",
+    "name": "Locker Club"
+  }
+},
+{
+  "type": "node",
+  "id": 8197438188,
+  "lat": 33.7541737,
+  "lon": -84.3716339,
+  "tags": {
+    "amenity": "bar",
+    "name": "Old Fourth"
+  }
+},
+{
+  "type": "node",
+  "id": 8197442017,
+  "lat": 33.7541932,
+  "lon": -84.3715510,
+  "tags": {
+    "amenity": "bar",
+    "name": "Church Annex"
+  }
+},
+{
+  "type": "node",
+  "id": 8199608304,
+  "lat": 33.7570491,
+  "lon": -84.3878154,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "By George",
+    "outdoor_seating": "no",
+    "website": "https://www.bygeorgeatl.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 8241708969,
+  "lat": 33.7610585,
+  "lon": -84.3833034,
+  "tags": {
+    "addr:city": "Atlanta",
+    "addr:housenumber": "255",
+    "addr:postcode": "30303",
+    "addr:state": "GA",
+    "addr:street": "Courtland Street Northeast",
+    "air_conditioning": "yes",
+    "amenity": "restaurant",
+    "bar": "yes",
+    "check_date": "2024-08-29",
+    "contact:instagram": "https://www.instagram.com/tradervicsatl/",
+    "cuisine": "polynesian;asian",
+    "description": "In Hilton Atlanta - Lower Level",
+    "diet:vegetarian": "yes",
+    "name": "Trader Vic's Atlanta",
+    "opening_hours": "Tu-Sa 17:00-22:30",
+    "payment:cash": "yes",
+    "payment:credit_cards": "yes",
+    "payment:debit_cards": "yes",
+    "phone": "+1-404-221-6339",
+    "reservation": "yes",
+    "smoking": "no",
+    "takeaway": "yes",
+    "toilets": "yes",
+    "website": "https://tradervicsatl.com/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10093411941,
+  "lat": 33.7521747,
+  "lon": -84.3823481,
+  "tags": {
+    "addr:city": "Atlanta",
+    "addr:housenumber": "80",
+    "addr:postcode": "30303",
+    "addr:state": "GA",
+    "addr:street": "Jesse Hill Jr Drive Southeast",
+    "amenity": "cafe",
+    "branch": "SECURE ACCESS Grady Hospital",
+    "brand": "Starbucks",
+    "brand:wikidata": "Q37158",
+    "cuisine": "coffee_shop",
+    "name": "Starbucks",
+    "official_name": "Starbucks Coffee",
+    "phone": "+1 404-616-8885",
+    "ref": "1030792",
+    "takeaway": "yes",
+    "website": "https://www.starbucks.com/store-locator/store/1030792/secure-access-grady-hospital-80-jesse-hill-jr-dr-se-atlanta-ga-30303-us"
+  }
+},
+{
+  "type": "node",
+  "id": 10672005206,
+  "lat": 33.7598127,
+  "lon": -84.3863895,
+  "tags": {
+    "addr:city": "Atlanta",
+    "addr:floor": "G",
+    "addr:housenumber": "229",
+    "addr:postcode": "30303",
+    "addr:state": "GA",
+    "addr:street": "Peachtree Street Northeast",
+    "addr:unit": "B17",
+    "amenity": "restaurant",
+    "bar": "yes",
+    "brewery": "various",
+    "check_date": "2025-09-21",
+    "cuisine": "american",
+    "email": "metrodineratl@gmail.com",
+    "level": "0",
+    "name": "Metro Diner & Bar",
+    "opening_hours": "Mo-Th 06:00-04:00; Fr-Sa 00:00-24:00; Su off",
+    "outdoor_seating": "no",
+    "payment:cash": "yes",
+    "payment:credit_cards": "yes",
+    "payment:debit_cards": "yes",
+    "phone": "+1 404-577-1420",
+    "smoking": "no",
+    "website": "https://metrodineratl.com/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11230225937,
+  "lat": 33.7542642,
+  "lon": -84.3758902,
+  "tags": {
+    "addr:housenumber": "357",
+    "addr:street": "Edgewood Avenue Northeast",
+    "amenity": "bar",
+    "name": "Noni's"
+  }
+},
+{
+  "type": "node",
+  "id": 11289782942,
+  "lat": 33.7456080,
+  "lon": -84.3685077,
+  "tags": {
+    "addr:city": "Atlanta",
+    "addr:housenumber": "580",
+    "addr:postcode": "30312",
+    "addr:state": "GA",
+    "addr:street": "Woodward Avenue Southeast",
+    "air_conditioning": "yes",
+    "amenity": "fast_food",
+    "brand": "Jimmy John's",
+    "brand:wikidata": "Q1689380",
+    "cuisine": "sandwich",
+    "name": "Jimmy John's",
+    "official_name": "Jimmy John's Gourmet Sandwiches",
+    "phone": "+1 404-800-7970",
+    "takeaway": "yes",
+    "website": "https://locations.jimmyjohns.com/ga/atlanta/sandwiches-3303.html"
+  }
+},
+{
+  "type": "node",
+  "id": 11314810969,
+  "lat": 33.7544335,
+  "lon": -84.3720279,
+  "tags": {
+    "addr:postcode": "30312",
+    "amenity": "restaurant",
+    "contact:facebook": "111255914653316",
+    "contact:instagram": "thehandlebaratl",
+    "cuisine": "american",
+    "email": "mailto:thehandlebaratl@gmail.com",
+    "name": "HandleBar",
+    "opening_hours": "Mo-Sa 11:00-02:00; Su 11:00-00:00",
+    "phone": "+1-404-600-2639",
+    "website": "https://handlebar-atl.com/#"
+  }
+},
+{
+  "type": "node",
+  "id": 11684875290,
+  "lat": 33.7475328,
+  "lon": -84.3796967,
+  "tags": {
+    "addr:housenumber": "240",
+    "addr:street": "Martin Luther King Junior Drive Southeast",
+    "amenity": "restaurant",
+    "check_date": "2024-03-02",
+    "cuisine": "greek",
+    "email": "nicksftg@gmail.com",
+    "name": "Nick's Food To Go",
+    "opening_hours": "Mo-Fr 11:00-19:00; Sa-Su off",
+    "phone": "+1 404-521-2220",
+    "website": "https://www.nicksfood.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 11805555577,
+  "lat": 33.7496543,
+  "lon": -84.3909296,
+  "tags": {
+    "addr:city": "Atlanta",
+    "addr:housenumber": "225",
+    "addr:postcode": "30303",
+    "addr:state": "GA",
+    "addr:street": "Central Avenue Southwest",
+    "amenity": "fast_food",
+    "cuisine": "sandwich",
+    "delivery": "yes",
+    "name": "American Deli",
+    "opening_hours": "Mo-Fr 08:00-18:00; Sa 12:00-18:00; Su off",
+    "phone": "+1-404-343-3867",
+    "takeaway": "yes",
+    "website": "https://americandeli.com",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11916291703,
+  "lat": 33.7523462,
+  "lon": -84.3900655,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Danaoln Crepe"
+  }
+}
+
+  ]
+}

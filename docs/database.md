@@ -24,8 +24,11 @@ CREATE TABLE marta_stops (
   name          TEXT NOT NULL,
   stop_type     TEXT NOT NULL CHECK (stop_type IN ('rail','bus','streetcar')),
   location      GEOGRAPHY(POINT, 4326) NOT NULL,
-  lines         TEXT[],                 -- {RED,GOLD} or {3,26} or {BLUE,GREEN}
+  lines         TEXT[],                 -- {RED,GOLD} or {3,26} or {BLUE,GREEN} — populated for
+                                         -- bus stops from route_stops, not just rail
   gtfs_stop_id  TEXT,                   -- raw GTFS stop_id for stop_times joins
+  platform_code TEXT,                   -- bay/platform label, only if the GTFS feed has one —
+                                         -- never fabricated when absent
   created_at    TIMESTAMPTZ DEFAULT now(),
   updated_at    TIMESTAMPTZ DEFAULT now()
 );
@@ -47,9 +50,32 @@ CREATE TABLE marta_lines (
   line_name  TEXT NOT NULL,
   color_hex  TEXT NOT NULL,             -- '#ef4444'
   route      GEOGRAPHY(LINESTRING, 4326),
-  stop_ids   TEXT[]                     -- ordered stop_id sequence
+  stop_ids   TEXT[]                     -- ordered stop_id sequence — populated by seed_rail.py,
+                                         -- walked by the routing graph for rail adjacency
 );
 ```
+
+### `route_stops` — canonical bus route topology
+
+```sql
+CREATE TABLE route_stops (
+  route_id         TEXT NOT NULL,
+  route_short_name TEXT NOT NULL,       -- '3', '26', ... — what riders call the route
+  direction_id     INT NOT NULL,        -- GTFS direction_id (0 or 1); edges are directed
+  headsign         TEXT,
+  stop_id          TEXT NOT NULL REFERENCES marta_stops(stop_id),
+  stop_sequence    INT NOT NULL,
+  PRIMARY KEY (route_id, direction_id, stop_sequence)
+);
+
+CREATE INDEX idx_route_stops_stop ON route_stops (stop_id);
+```
+
+One representative (longest) trip per `(route_id, direction_id)` from GTFS `stop_times.txt` —
+not the full multi-million-row schedule. See `docs/seeding.md` Phase 2 and the "Why a
+canonical-trip shape" decision in `docs/architecture.md`. This is what lets `src/routing/graph.ts`
+build directed bus-route edges and lets `seed_bus.py` finally populate `marta_stops.lines` for
+bus stops (previously always NULL).
 
 ### `pois` — Points of Interest (eateries + future categories)
 
@@ -180,22 +206,26 @@ LIMIT 20;
 
 ### Q5 — Schedule fallback (when transit API is down)
 
+`trips`/`routes`/`calendar` GTFS static tables were never actually created (this query
+previously referenced them and threw on every fallback request). No live schedule import
+exists in this scaffold either — `stop_times` is never seeded — so this can only report which
+routes serve a stop, not a real departure time:
+
 ```sql
-SELECT
-  st.departure_time,
-  t.route_id,
-  r.route_short_name,
-  t.trip_headsign
-FROM stop_times st
-JOIN trips t  ON t.trip_id    = st.trip_id
-JOIN routes r ON r.route_id   = t.route_id
-JOIN calendar c ON c.service_id = t.service_id
-WHERE
-  st.stop_id = $1
-  AND st.departure_time > (NOW()::TIME)
-  AND c.monday = 1                -- swap field for day of week dynamically
-ORDER BY st.departure_time
+SELECT DISTINCT route_id, route_short_name, headsign
+FROM route_stops
+WHERE stop_id = $1
 LIMIT 5;
+-- Params: [stop_id]
+```
+
+### Q7 — Routes serving a stop (reverse lookup, bus)
+
+```sql
+SELECT route_id, route_short_name, direction_id, headsign, stop_sequence
+FROM route_stops
+WHERE stop_id = $1
+ORDER BY route_short_name, direction_id;
 -- Params: [stop_id]
 ```
 
@@ -227,6 +257,7 @@ FROM pois;
 | `idx_pois_amenity` | B-tree | `pois.amenity` | Filter by category |
 | `idx_pois_osm_id` | B-tree (partial) | `pois.osm_id WHERE NOT NULL` | Upsert conflict check |
 | `idx_stop_times_stop` | B-tree | `(stop_id, departure_time)` | Schedule fallback query |
+| `idx_route_stops_stop` | B-tree | `route_stops.stop_id` | Reverse route lookup + routing graph build |
 
 **After bulk bus stop load, always run:**
 ```sql

@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS marta_stops (
   location      GEOGRAPHY(POINT, 4326) NOT NULL,
   lines         TEXT[],
   gtfs_stop_id  TEXT,
+  platform_code TEXT,                  -- bay/platform label, only if the GTFS feed supplies one
   created_at    TIMESTAMPTZ DEFAULT now(),
   updated_at    TIMESTAMPTZ DEFAULT now()
 );
@@ -61,3 +62,18 @@ CREATE TABLE IF NOT EXISTS stop_times (
 );
 
 CREATE INDEX IF NOT EXISTS idx_stop_times_stop ON stop_times (stop_id, departure_time);
+
+-- Canonical ordered stop sequence per bus route+direction. One representative trip per
+-- (route_id, direction_id) — not the full GTFS schedule — enough for graph routing without
+-- importing millions of stop_times rows. See docs/seeding.md Phase 2.
+CREATE TABLE IF NOT EXISTS route_stops (
+  route_id         TEXT NOT NULL,
+  route_short_name TEXT NOT NULL,
+  direction_id     INT NOT NULL,
+  headsign         TEXT,
+  stop_id          TEXT NOT NULL REFERENCES marta_stops(stop_id),
+  stop_sequence    INT NOT NULL,
+  PRIMARY KEY (route_id, direction_id, stop_sequence)
+);
+
+CREATE INDEX IF NOT EXISTS idx_route_stops_stop ON route_stops (stop_id);

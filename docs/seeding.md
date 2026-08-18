@@ -48,6 +48,13 @@ cur.execute("""
 """)
 ```
 
+After the stop load, `seed_rail.py` also writes the ordered per-line stop sequence into
+`marta_lines.stop_ids` (four `LINE_SEQUENCES` constants, one per RED/GOLD/BLUE/GREEN — same
+values as `LINE_PATHS` embedded in `public/skipper.html`, kept in sync by hand since the
+frontend has no build step to share a module). This is what the routing graph
+(`src/routing/graph.ts`) walks for rail adjacency — without it, `marta_lines.stop_ids` sits
+unused even though the schema column has always existed.
+
 ---
 
 ## Phase 2 — Bus Stops
@@ -70,6 +77,26 @@ cur.execute("CREATE INDEX idx_marta_stops_location ON marta_stops USING GIST (lo
 cur.execute("CLUSTER marta_stops USING idx_marta_stops_location")
 cur.execute("ANALYZE marta_stops")
 ```
+
+**Route topology sub-step (same GTFS zip, no extra download):** `stops.txt` alone gives no
+route information — a bus stop had no route number attached to it at all until this sub-step
+existed. `seed_bus.py` also reads `routes.txt`, `trips.txt`, and `stop_times.txt` from the same
+zip and extracts one canonical ordered stop sequence per `(route_id, direction_id)`:
+
+1. Build `trip_id → (route_id, direction_id, headsign)` from `trips.txt`.
+2. Pass 1 over `stop_times.txt`: count stops per `trip_id` (bounded memory — one counter per
+   trip, not per row).
+3. Pick the longest trip per `(route_id, direction_id)` as its representative shape — this is
+   deliberately *not* a full schedule import (MARTA's `stop_times.txt` is millions of rows;
+   see the numbers below), just enough topology for graph routing.
+4. Pass 2 over `stop_times.txt`: collect the ordered `(stop_sequence, stop_id)` pairs only for
+   the winning `trip_id`s, insert into `route_stops`.
+5. `UPDATE marta_stops SET lines = ...` from the distinct route short names now in
+   `route_stops`, per bus stop — this is what finally populates `lines` for bus stops.
+
+Two passes over `stop_times.txt` (rather than one) avoid depending on the file being sorted by
+`trip_id`, at the cost of reading it twice — both are cheap streaming CSV scans, no full
+materialization.
 
 ---
 
@@ -108,6 +135,7 @@ For NYC-scale, use 4×4 tiles (16 requests) with a producer-consumer queue.
 | Eatery POIs | ~4,500 | ~23s | Nightly |
 | All amenity POIs | ~22,000 | ~90s | Weekly |
 | GTFS stop_times | ~2–4M | ~40s | On GTFS release |
+| `route_stops` (canonical shapes) | ~81 routes × 2 directions × ~avg stops | few seconds (two streaming passes over stop_times.txt) | On GTFS release |
 
 ---
 
@@ -152,6 +180,7 @@ CITY_BBOXES = {
 | `pois` | Nightly cron at 3am ET | 48 hours |
 | `route_cache` | TTL-based expiry (24h) | 24 hours |
 | `stop_times` | New MARTA GTFS zip | Manual / per release |
+| `route_stops` | New MARTA GTFS zip (rebuilt each bus-phase run) | Manual / per release |
 
 ---
 

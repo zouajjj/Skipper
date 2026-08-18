@@ -23,13 +23,15 @@ arrivalsRouter.get('/arrivals', async (req, res) => {
     arrivals = await getCachedArrivals(stopId, () => provider.getArrivals(stopId));
     source = 'api';
   } else {
+    // No live schedule import exists in this scaffold (stop_times is seeded nowhere — see
+    // "Next Sprint" in CLAUDE.md), so this can't report a real departure time. It can still
+    // honestly report which routes serve the stop, from the topology seed_bus.py already
+    // builds — better than the old query, which referenced trips/routes tables that don't
+    // exist anywhere in schema.sql and threw a SQL error on every fallback request.
     const { rows } = await query(
-      `SELECT st.departure_time, t.route_id, r.route_short_name, t.trip_headsign
-       FROM stop_times st
-       JOIN trips t ON t.trip_id = st.trip_id
-       JOIN routes r ON r.route_id = t.route_id
-       WHERE st.stop_id = $1 AND st.departure_time > (NOW()::TIME)
-       ORDER BY st.departure_time
+      `SELECT DISTINCT route_id, route_short_name, headsign
+       FROM route_stops
+       WHERE stop_id = $1
        LIMIT 5`,
       [stopId]
     );
@@ -37,8 +39,8 @@ arrivalsRouter.get('/arrivals', async (req, res) => {
       stop_id: stopId,
       route_id: r.route_id,
       route_name: r.route_short_name,
-      headsign: r.trip_headsign,
-      arrival_min: 0,
+      headsign: r.headsign,
+      arrival_min: 0, // StopArrival.arrival_min is frozen as non-nullable; no live schedule exists to derive a real value
       vehicle_id: null,
       status: 'scheduled',
       source: 'cached',

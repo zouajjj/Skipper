@@ -85,8 +85,9 @@ curl "http://localhost:3000/api/arrivals?stop_id=KING&agency=marta"
 | `TransitProvider` interface + 5 adapters | Implemented per `docs/transit-adapter.md` |
 | `ArrivalCache` (30s TTL) | Implemented |
 | `/api/nearby-stops`, `/api/route-plan`, `/api/arrivals` | Implemented, wired to PostGIS |
-| Seed pipeline (rail/bus/POI) | Implemented, idempotent, ordered |
-| `public/skipper.html` | Full standalone PWA — works with or without the backend |
+| Route planning | Real graph + Dijkstra over rail line adjacency + bus route adjacency + walking transfers (`src/routing/graph.ts`) — not a straight line between the two nearest stops |
+| Seed pipeline (rail/bus/POI) | Implemented, idempotent, ordered; bus phase also builds `route_stops` topology |
+| `public/skipper.html` | Full standalone PWA — works with or without the backend; falls back to a client-side rail-only Dijkstra when the backend is unreachable |
 | `route_cache` TTL reuse | Not wired — `route-plan` recomputes every request |
 | Nightly `sync_pois.py` cron | Not scheduled — POIs seed on demand via `run_seed.py --phases poi` |
 | Live vehicle positions | Adapters expose `getVehicles()`; nothing renders it yet |
